@@ -3,6 +3,14 @@ sequenceDiagram
     participant browser
     participant server
 
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note Payload - {"note": "new_note_data"}
+    activate server
+    server-->>browser: 302 Found, Location - /exampleapp/notes
+    deactivate server
+
+    Note right of server: The server responds to the browser with a new location to perform HTTP GET
+    Note right of browser: Now the sequences happen similar to the loading of the page
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
@@ -25,5 +33,5 @@ sequenceDiagram
     server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
     deactivate server
 
-    Note right of browser: The browser executes the callback function that renders the notes
+    Note right of browser: The browser executes the callback function that renders the notes. The notes contains the new value browser sent to the server
 ```
